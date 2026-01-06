@@ -27,17 +27,55 @@
             overflow-x: hidden;
         }
 
+        /* Banner 結構 */
         .hero-header {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=1200');
-            background-size: cover;
-            background-position: center;
-            height: 180px;
+            position: relative;
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 24px;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
+        }
+
+        .hero-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: -2;
+        }
+
+        /* 漸層遮罩 */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            z-index: -1;
+        }
+
+        .hero-part {
+            width: 33.33%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bg-kyoto { background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800'); }
+        .bg-kobe { background-image: url('https://images.unsplash.com/photo-1723042292737-731b51df0d74?q=80&w=1170&auto=format&fit=crop'); }
+        .bg-himeji { 
+            background-image: url('https://images.unsplash.com/photo-1752155910227-4cec1c92dc22?q=80&w=687&auto=format&fit=crop');
+            background-position: center 30%;
         }
 
         .date-scroller {
@@ -109,7 +147,6 @@
             z-index: 2;
         }
 
-        /* 票價標籤樣式 */
         .price-badge {
             position: absolute;
             top: 16px;
@@ -135,7 +172,6 @@
             font-weight: 800;
             color: #6c757d;
             letter-spacing: 0.5px;
-            outline: none;
         }
 
         .badge {
@@ -145,7 +181,6 @@
             font-weight: 500;
             color: white;
             letter-spacing: 1px;
-            outline: none;
         }
         .badge-airport { background-color: #8E9794; }
         .badge-hotel { background-color: #A39BA8; }
@@ -159,8 +194,7 @@
             font-weight: 900;
             margin-bottom: 6px;
             color: var(--text-dark);
-            max-width: 75%; /* 確保標題不遮擋右上角票價 */
-            outline: none;
+            max-width: 75%;
         }
 
         .address-link {
@@ -174,16 +208,13 @@
             padding: 4px 0;
         }
         .address-link i { color: var(--accent-gold); margin-top: 2px; }
-        .address-text { border-bottom: 1px dotted transparent; outline: none; }
 
         .description {
             font-size: 13px;
             color: #555;
             line-height: 1.5;
-            outline: none;
         }
 
-        /* 詳情收攏樣式 */
         details summary {
             list-style: none;
             cursor: pointer;
@@ -207,60 +238,46 @@
             color: #4b5563;
             line-height: 1.6;
         }
-
-        [contenteditable="true"]:focus {
-            background-color: rgba(212, 163, 115, 0.08);
-        }
-
-        .edit-hint {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            pointer-events: none;
-            z-index: 2000;
-            backdrop-filter: blur(4px);
-        }
     </style>
 </head>
 <body class="pb-10">
 
-    <div class="edit-hint"><i class="fa-solid fa-pen-to-square mr-1"></i> 文字可編輯 | 點地標導航</div>
-
     <header class="hero-header">
-        <h1 class="text-white text-3xl font-black italic" contenteditable="true">京都 x 神戶 五天四夜之旅</h1>
-        <p class="text-white/60 text-[10px] font-bold tracking-widest uppercase mt-1" contenteditable="true">2026 TRAVEL IN JAPAN</p>
+        <div class="hero-bg-container">
+            <div class="hero-part bg-kyoto"></div>
+            <div class="hero-part bg-kobe"></div>
+            <div class="hero-part bg-himeji"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <h1 class="text-white text-3xl font-black italic">京都 x 神戶 五天四夜之旅</h1>
+        <p class="text-white/80 text-[10px] font-bold tracking-widest uppercase mt-1">2026 TRAVEL IN JAPAN</p>
     </header>
 
     <div class="date-scroller">
         <div onclick="changeDay('day1', this)" class="date-pill active">
             <span class="text-[9px] font-black opacity-30">1/7</span>
             <span class="text-xl font-black">07</span>
-            <span class="text-[9px] font-bold">TUE</span>
+            <span class="text-[9px] font-bold">WED</span>
         </div>
         <div onclick="changeDay('day2', this)" class="date-pill">
             <span class="text-[9px] font-black opacity-30">1/8</span>
             <span class="text-xl font-black">08</span>
-            <span class="text-[9px] font-bold">WED</span>
+            <span class="text-[9px] font-bold">THU</span>
         </div>
         <div onclick="changeDay('day3', this)" class="date-pill">
             <span class="text-[9px] font-black opacity-30">1/9</span>
             <span class="text-xl font-black">09</span>
-            <span class="text-[9px] font-bold">THU</span>
+            <span class="text-[9px] font-bold">FRI</span>
         </div>
         <div onclick="changeDay('day4', this)" class="date-pill">
             <span class="text-[9px] font-black opacity-30">1/10</span>
             <span class="text-xl font-black">10</span>
-            <span class="text-[9px] font-bold">FRI</span>
+            <span class="text-[9px] font-bold">SAT</span>
         </div>
         <div onclick="changeDay('day5', this)" class="date-pill">
             <span class="text-[9px] font-black opacity-30">1/11</span>
             <span class="text-xl font-black">11</span>
-            <span class="text-[9px] font-bold">SAT</span>
+            <span class="text-[9px] font-bold">SUN</span>
         </div>
     </div>
 
@@ -269,18 +286,18 @@
         <div id="day1" class="timeline-container active">
             <div class="event-card">
                 <div class="time-row">
-                    <span class="badge badge-airport" contenteditable="true">機場</span>
-                    <span class="time-label" contenteditable="true">07:40</span>
+                    <span class="badge badge-airport">機場</span>
+                    <span class="time-label">07:40</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">桃園機場 T1 (星宇航空 JX820)</h2>
+                <h2 class="title-main">桃園機場 T1 (星宇航空 JX820)</h2>
                 <a href="https://maps.google.com/?q=桃園國際機場" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">桃園市大園區航站南路15號</span>
+                    <span class="address-text">桃園市大園區航站南路15號</span>
                 </a>
-                <p class="description" contenteditable="true">05:40前到，<strong class="text-red-600">1/4 記得選位！</strong></p>
+                <p class="description">05:40前到，<strong class="text-red-600">1/4 記得選位！</strong></p>
                 <details>
                     <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">
+                    <div class="details-content">
                         請務必攜帶護照以及先行準備visit japn web。
                     </div>
                 </details>
@@ -289,60 +306,58 @@
             <div class="event-card">
                 <div class="price-badge">關西周遊一日券 ¥2500</div>
                 <div class="time-row">
-                    <span class="badge badge-airport" contenteditable="true">機場</span>
-                    <span class="time-label" contenteditable="true">11:10</span>
+                    <span class="badge badge-airport">機場</span>
+                    <span class="time-label">11:10</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">關西機場 T1</h2>
+                <h2 class="title-main">關西機場 T1</h2>
                 <a href="https://maps.google.com/?q=Kansai+International+Airport" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">大阪府泉佐野市泉州空港北1</span>
+                    <span class="address-text">大阪府泉佐野市泉州空港北1</span>
                 </a>
-                <p class="description" contenteditable="true">搭乘 HARUKA (11:44、12:14、12:44)，約 1.5 小時。</p>
+                <p class="description">搭乘 HARUKA (11:44、12:14、12:44)，約 1.5 小時。</p>
             </div>
 
             <div class="event-card">
                 <div class="price-badge">步行</div>
                 <div class="time-row">
-                    <span class="badge badge-hotel" contenteditable="true">飯店</span>
-                    <span class="time-label" contenteditable="true">14:00</span>
+                    <span class="badge badge-hotel">飯店</span>
+                    <span class="time-label">14:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">TUNE STAY KYOTO</h2>
+                <h2 class="title-main">TUNE STAY KYOTO</h2>
                 <a href="https://maps.google.com/?q=TUNE+STAY+KYOTO" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市下京區七條通新町東入夷之町708</span>
+                    <span class="address-text">京都市下京區七條通新町東入夷之町708</span>
                 </a>
-                <p class="description" contenteditable="true">先行寄放行李。京都站步行約 5-8 分鐘。</p>
+                <p class="description">先行寄放行李。京都站步行約 5-8 分鐘。</p>
             </div>
 
             <div class="event-card">
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">午餐</span>
-                    <span class="time-label" contenteditable="true">14:30</span>
+                    <span class="badge badge-food">午餐</span>
+                    <span class="time-label">14:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">きた田 KITADA 拉麵 or Katsukura 豬排</h2>
-                <p class="description" contenteditable="true">車站附近推薦用餐。</p>
+                <h2 class="title-main">きた田 KITADA 拉麵 or Katsukura 豬排</h2>
+                <p class="description">車站附近推薦用餐。</p>
             </div>
 
             <div class="event-card">
                 <div class="price-badge">205 city bus 下鴨神社前</div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">15:30</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">15:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">下鴨神社 + 河合神社</h2>
+                <h2 class="title-main">下鴨神社 + 河合神社</h2>
                 <a href="https://maps.google.com/?q=下鴨神社" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市左京區下鴨泉川町59</span>
+                    <span class="address-text">京都市左京區下鴨泉川町59</span>
                 </a>
                 <div class="description">
-                    <p contenteditable="true">京都最古老的神社，包含擁有美麗之神的河合神社。</p>
+                    <p>京都最古老的神社，包含擁有美麗之神的河合神社。</p>
                     <details>
                         <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                        <div class="details-content" contenteditable="true">
+                        <div class="details-content">
                             <strong>下鴨神社 (Kamo Mioya Jingu)</strong><br>
-                            也叫賀茂御祖神社，是京都的主要神社之一，位於賀茂川和高野川交匯處的綠意盎然的糺の森中。這座神社供奉的是賀茂建角身命，他是大地的神祇之一，具有悠久的歷史，是京都最古老、最具象徵性的神社之一。下鴨神社創建於公元前678年，建築呈現出簡樸而優雅的風格，特別是其擁有的流線型本殿，展現出強烈的平安時代建築特色。下鴨神社最具特色的部分之一就是它旁邊的糺の森，這是一片古老的森林，充滿著自然的氣息。這裡的綠樹參天，是參拜者步入神社前先經過的一片靜謐之地。步道旁有許多古老的樹木，這片森林為神社增添了一份神聖和神秘的氛圍。<br><br>
-                            <strong>河合神社 (Kawai Jingu)</strong><br>
-                            是位於下鴨神社附近的一座小型神社，這裡供奉的是玉依姫命，她是與女性美麗、婚姻和家庭幸福相關的神祇。這座神社以其特殊的祭祀功能而聞名，特別是對女性的保護和祝福。
+                            也叫賀茂御祖神社，是京都的主要神社之一，位於賀茂川和高野川交匯處的綠意盎然的糺の森中。這座神社供奉的是賀茂建角身命，他是大地的神祇之一，具有悠久的歷史，是京都最古老、最具象徵性的神社之一。下鴨神社創建於公元前678年，建築呈現出簡鋪而優雅的風格，特別是其擁有的流線型本殿，展現出強烈的平安時代建築特色。下鴨神社最具特色的部分之一就是它旁邊的糺の森，這是一片古老的森林，充滿著自然的氣息。這裡的綠樹參天，是參拜者步入神社前先經過的一片靜謐之地。步道旁有許多古老的樹木，這片森林為神社增添了一份神聖和神秘的氛圍。
                         </div>
                     </details>
                 </div>
@@ -351,52 +366,52 @@
             <div class="event-card">
                 <div class="price-badge">205 city bus 下鴨神社前到京都市役所前</div>
                 <div class="time-row">
-                    <span class="badge badge-shop" contenteditable="true">逛街</span>
-                    <span class="time-label" contenteditable="true">17:30</span>
+                    <span class="badge badge-shop">逛街</span>
+                    <span class="time-label">17:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">河原町、寺町街區</h2>
-                <p class="description" contenteditable="true">HUMAN MADE 1928、WTAPS、ISSEY MIYAKE、BAPE、大丸百貨(CDG、TNF、Dr. Martens)、POKEMON CENTER。</p>
+                <h2 class="title-main">河原町、寺町街區</h2>
+                <p class="description">HUMAN MADE 1928、WTAPS、ISSEY MIYAKE、BAPE、大丸百貨(CDG、TNF、Dr. Martens)、POKEMON CENTER。</p>
             </div>
 
             <div class="event-card">
                 <div class="price-badge">步行</div>
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">下午茶</span>
-                    <span class="time-label" contenteditable="true">19:00</span>
+                    <span class="badge badge-food">下午茶</span>
+                    <span class="time-label">19:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">HARBS (藤井大丸店)</h2>
+                <h2 class="title-main">HARBS (藤井大丸店)</h2>
                 <a href="https://maps.google.com/?q=HARBS+Fujii+Daimaru" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市下京區寺町通四條下貞安前之町605</span>
+                    <span class="address-text">京都市下京區寺町通四條下貞安前之町605</span>
                 </a>
-                <p class="description" contenteditable="true">外帶千層蛋糕，最晚開到20:00。</p>
+                <p class="description">最晚開到20:00。</p>
             </div>
 
             <div class="event-card">
                 <div class="price-badge">步行</div>
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">晚餐</span>
-                    <span class="time-label" contenteditable="true">20:00</span>
+                    <span class="badge badge-food">晚餐</span>
+                    <span class="time-label">20:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">鰻富士 炭燒うな富士 (大丸京都別邸)</h2>
+                <h2 class="title-main">鰻富士 炭燒うな富士 (大丸京都別邸)</h2>
                 <a href="https://maps.google.com/?q=炭燒うな富士+大丸京都別邸" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市下京區立壳西町79</span>
+                    <span class="address-text">京都市下京區立壳西町79</span>
                 </a>
-                <p class="description" contenteditable="true">炭燒鰻魚飯。</p>
             </div>
 
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">21:30</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">21:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">八坂神社(創建：西元 656 年)</h2>
+                <h2 class="title-main">八坂神社</h2>
                 <a href="https://maps.google.com/?q=八坂神社" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市東山區祇園町北側625</span>
+                    <span class="address-text">京都市東山區祇園町北側625</span>
                 </a>
+                <p class="description">創建：西元 656 年。</p>
             </div>
         </div>
 
@@ -405,17 +420,17 @@
             <div class="event-card">
                 <div class="price-badge">步行</div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">07:00</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">07:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">東本願寺</h2>
+                <h2 class="title-main">東本願寺</h2>
                 <a href="https://maps.google.com/?q=東本願寺" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市下京區常葉町</span>
+                    <span class="address-text">京都市下京區常葉町</span>
                 </a>
                 <details>
                     <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">
+                    <div class="details-content">
                         東本願寺（Higashi Hongan-ji）是位於京都市的佛教寺廟，屬於淨土宗（Pure Land Buddhism）的本山之一，這座寺廟的規模和歷史背景非常重要，並且在京都的文化和宗教生活中佔有重要地位。
                     </div>
                 </details>
@@ -423,20 +438,19 @@
             <div class="event-card">
                 <div class="price-badge">一日行程</div>
                 <div class="time-row">
-                    <span class="badge badge-trans" contenteditable="true">一日行程</span>
-                    <span class="time-label" contenteditable="true">08:30</span>
+                    <span class="badge badge-trans">一日行程</span>
+                    <span class="time-label">08:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">天橋立、伊根舟屋</h2>
-                <p class="description" contenteditable="true">前往京都車站八條口觀光巴士停車場，欣賞海之京都。</p>
+                <h2 class="title-main">天橋立、伊根舟屋</h2>
+                <p class="description">前往京都車站八條口觀光巴士停車場，欣賞海之京都。</p>
                 <div class="description">                    
                     <details>
                         <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                        <div class="details-content" contenteditable="true">
+                        <div class="details-content">
                             <strong>天橋立</strong><br>
-                            日本三大景之一、傳說是天界通往人間的橋樑，從高處俯瞰，像一條漂浮在海上的綠色巨龍，中段有智恩寺、旋轉橋
-最佳觀賞點：傘松公園(從胯下看XD)、飛龍觀<br><br>
-<strong>伊根舟屋</strong><br>
-                            日本最具生活感的海上聚落，被譽為日本威尼斯，伊根灣遊船餵海鷗<br><br>
+                            日本三大景之一、傳說是天界通往人間的橋樑。<br><br>
+                            <strong>伊根舟屋</strong><br>
+                            日本最具生活感的海上聚落，被譽為日本威尼斯。
                         </div>
                     </details>
                 </div>
@@ -444,78 +458,79 @@
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">18:30</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">18:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">伏見稻荷神社(創建：西元 711 年)</h2>
+                <h2 class="title-main">伏見稻荷神社</h2>
                 <a href="https://maps.google.com/?q=伏見稻荷大社" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市伏見區深草藪之內町68</span>
+                    <span class="address-text">京都市伏見區深草藪之內町68</span>
                 </a>
+                <p class="description">創建：西元 711 年</p>
             </div>
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">晚餐</span>
-                    <span class="time-label" contenteditable="true">21:00</span>
+                    <span class="badge badge-food">晚餐</span>
+                    <span class="time-label">21:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">六角ace 居酒屋</h2>
-                <p class="description" contenteditable="true"><strong class="text-blue-600">已預約</strong>。</p>
+                <h2 class="title-main">六角ace 居酒屋</h2>
+                <p class="description"><strong class="text-blue-600">已預約</strong>。</p>
             </div>
         </div>
 
         <!-- DAY 3 -->
         <div id="day3" class="timeline-container">
             <div class="event-card">
-                <div class="price-badge">206 cuty bus ¥230</div>
+                <div class="price-badge">206 city bus ¥230</div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">06:30</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">06:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">清水寺（可去可不去）</h2>
+                <h2 class="title-main">清水寺（可去可不去）</h2>
                 <a href="https://maps.google.com/?q=清水寺" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">京都市東山區清水1-294</span>
+                    <span class="address-text">京都市東山區清水1-294</span>
                 </a>
             </div>
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">早餐</span>
-                    <span class="time-label" contenteditable="true">08:00</span>
+                    <span class="badge badge-food">早餐</span>
+                    <span class="time-label">08:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">市川屋咖啡</h2>
+                <h2 class="title-main">市川屋咖啡</h2>
                 <a href="https://maps.google.com/?q=市川屋咖啡" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">日本〒605-0875 Kyoto, Higashiyama Ward, Kaneicho, 396-2</span>
+                    <span class="address-text">日本〒605-0875 Kyoto, Higashiyama Ward, Kaneicho, 396-2</span>
                 </a>
             </div>
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-trans" contenteditable="true">車站</span>
-                    <span class="time-label" contenteditable="true">10:30</span>
+                    <span class="badge badge-trans">車站</span>
+                    <span class="time-label">10:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">京都車站</h2>
+                <h2 class="title-main">京都車站</h2>
                 <a href="https://maps.google.com/?q=京都車站" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">Higashishiokoji Kamadonocho, Shimogyo Ward, Kyoto, 日本</span>
+                    <span class="address-text">Higashishiokoji Kamadonocho, Shimogyo Ward, Kyoto, 日本</span>
                 </a>
             </div>
             <div class="event-card">
                 <div class="price-badge">東海道 山陽本線 湖西線</div>
                 <div class="time-row">
-                    <span class="badge badge-trans" contenteditable="true">車站</span>
-                    <span class="time-label" contenteditable="true">12:00</span>
+                    <span class="badge badge-trans">車站</span>
+                    <span class="time-label">12:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">神戶三宮站</h2>
+                <h2 class="title-main">神戶三宮站</h2>
                 <a href="https://maps.google.com/?q=神戶三宮站" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">４丁目-１番－１ Nunobikicho, Chuo Ward, Kobe, Hyogo 651-0097日本</span>
+                    <span class="address-text">４丁目-１番－１ Nunobikicho, Chuo Ward, Kobe, Hyogo 651-0097日本</span>
                 </a>
-                                <details>
+                <details>
                     <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">
+                    <div class="details-content">
                         可搭乘11:00、11:09、11:15的車
                     </div>
                 </details>
@@ -523,79 +538,62 @@
             <div class="event-card">
                 <div class="price-badge">步行</div>
                 <div class="time-row">
-                    <span class="badge badge-hotel" contenteditable="true">飯店</span>
-                    <span class="time-label" contenteditable="true">12:30</span>
+                    <span class="badge badge-hotel">飯店</span>
+                    <span class="time-label">12:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">Sotetsu Fresa Inn 神戶三宮</h2>
+                <h2 class="title-main">Sotetsu Fresa Inn 神戶三宮</h2>
                 <a href="https://maps.google.com/?q=Sotetsu+Fresa+Inn+Kobe+Sannomiya" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">神戶市中央區旭通5-2-3</span>
+                    <span class="address-text">神戶市中央區旭通5-2-3</span>
                 </a>
-                <details>
-                    <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">
-                        寄放行李
-                    </div>
-                </details>
+                <p class="description">寄放行李。</p>
             </div>
             <div class="event-card">
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">午餐</span>
-                    <span class="time-label" contenteditable="true">13:00</span>
+                    <span class="badge badge-food">午餐</span>
+                    <span class="time-label">13:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">神戶牛排彩餐廳</h2><p class="description" contenteditable="true"><strong class="text-blue-600">已預約</strong>。</p>
+                <h2 class="title-main">神戶牛排彩餐廳</h2>
+                <p class="description"><strong class="text-blue-600">已預約</strong>。</p>
             </div>
             <div class="event-card">
                 <div class="price-badge"></div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">景點</span>
-                    <span class="time-label" contenteditable="true">15:00</span>
+                    <span class="badge badge-spot">景點</span>
+                    <span class="time-label">15:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">異人館區</h2>
+                <h2 class="title-main">異人館區</h2>
                 <a href="https://maps.google.com/?q=Kobe Kitano Ijinkan-Gai" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">Kitanocho, Chuo Ward, Kobe, Hyogo 650-0002日本</span>
+                    <span class="address-text">Kitanocho, Chuo Ward, Kobe, Hyogo 650-0002日本</span>
                 </a>
-                <details>
-                    <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">異人館、風見雞之館、英國館、萌黃之館、北野天滿宮、星巴克、六甲山冰淇淋。
-                    </div>
-                </details>
+                <p class="description">異人館、風見雞之館、英國館、萌黃之館、北野天滿宮、星巴克、六甲山冰淇淋。</p>
             </div>
             <div class="event-card">
                 <div class="price-badge">人工島線 三宮至市民廣場</div>
                 <div class="time-row">
-                    <span class="badge badge-spot" contenteditable="true">演唱會</span>
-                    <span class="time-label" contenteditable="true">17:30</span>
+                    <span class="badge badge-spot">演唱會</span>
+                    <span class="time-label">17:30</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">世界紀念館</h2>
+                <h2 class="title-main">世界紀念館</h2>
                 <a href="https://maps.google.com/?q=World+Memorial+Hall" target="_blank" class="address-link">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">神戶市中央區港島中町6-12-2</span>
+                    <span class="address-text">神戶市中央區港島中町6-12-2</span>
                 </a>
-                <details>
-                    <summary><i class="fa-solid fa-circle-info"></i> 查看詳情</summary>
-                    <div class="details-content" contenteditable="true">
-                        18:00入場。
-                    </div>
-                </details>
+                <p class="description">18:00入場。</p>
             </div>
             <div class="event-card">
                 <div class="price-badge">人工島線 市民廣場至三宮</div>
                 <div class="time-row">
-                    <span class="badge badge-food" contenteditable="true">晚餐</span>
-                    <span class="time-label" contenteditable="true">21:00</span>
+                    <span class="badge badge-food">晚餐</span>
+                    <span class="time-label">21:00</span>
                 </div>
-                <h2 class="title-main" contenteditable="true">美作Misaku</h2>
-                <a href="https://maps.google.com/?q=美作 Misaku" target="_blank" class="address-link">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span class="address-text" contenteditable="true">日本〒650-0004 Hyogo, Kobe, Chuo Ward, Nakayamatedori, 1 Chome−8−1-1F 明関ビル</span>
-                </a>
-                <p class="description" contenteditable="true">炒麵飯、大阪燒。</p>
+                <h2 class="title-main">美作Misaku</h2>
+                <p class="description">炒麵飯、大阪燒。</p>
             </div>
         </div>
 
-        <!-- DAY 4 -->
+             <!-- DAY 4 -->
         <div id="day4" class="timeline-container">
             <div class="event-card">
                 <div class="price-badge">東海道 山陽本線 姬路 ¥960</div>
